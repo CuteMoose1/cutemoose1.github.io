@@ -1,94 +1,92 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Node structure for circular linked list
-struct Node {
-    int data;
-    struct Node* next;
+struct node {
+  int data;
+  struct node *next;
 };
 
-// Function to insert a node at the end of circular linked list
-void insert(struct Node** head, int data) {
-    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
-    newNode->data = data;
-
-    if (*head == NULL) {
-        *head = newNode;
-        newNode->next = *head;
-    } else {
-        struct Node* temp = *head;
-        while (temp->next != *head) {
-            temp = temp->next;
-        }
-        temp->next = newNode;
-        newNode->next = *head;
-    }
+struct node *create_node(int data) {
+  struct node *new_node = malloc(sizeof(struct node));
+  new_node->data = data;
+  new_node->next = NULL;
+  return new_node;
 }
 
-// Function to display the circular linked list
-void display(struct Node* head) {
-    if (head == NULL) {
-        printf("Circular linked list is empty.\n");
-        return;
+void insert_node(struct node **head, int data) {
+  struct node *new_node = create_node(data);
+  if (*head == NULL) {
+    *head = new_node;
+    new_node->next = *head;  // Point to itself in a circular manner
+  } else {
+    struct node *current_node = *head;
+    while (current_node->next != *head) {
+      current_node = current_node->next;
     }
-
-    struct Node* temp = head;
-    do {
-        printf("%d ", temp->data);
-        temp = temp->next;
-    } while (temp != head);
-    printf("\n");
+    current_node->next = new_node;
+    new_node->next = *head;  // Make the new node point to the head, completing the circle
+  }
 }
 
-// Function to sort the circular linked list using Bubble Sort
-void sortCircularLinkedList(struct Node** head) {
-    if (*head == NULL) {
-        return;
+void print_list(struct node *head) {
+  if (head == NULL) {
+    printf("List is empty.\n");
+    return;
+  }
+
+  struct node *current = head;
+  do {
+    printf("%d ", current->data);
+    current = current->next;
+  } while (current != head);
+  printf("\n");
+}
+
+void sort_list(struct node *head) {
+  if (head == NULL) {
+    printf("List is empty.\n");
+    return;
+  }
+
+  struct node *current = head;
+  struct node *next_node;
+  int temp;
+
+  do {
+    next_node = current->next;
+    while (next_node != head) {
+      if (current->data > next_node->data) {
+        temp = current->data;
+        current->data = next_node->data;
+        next_node->data = temp;
+      }
+      next_node = next_node->next;
     }
-
-    int swapped;
-    struct Node* current;
-    struct Node* last = NULL;
-
-    do {
-        swapped = 0;
-        current = *head;
-
-        while (current->next != last) {
-            if (current->data > current->next->data) {
-                // Swap the data of current and next nodes
-                int temp = current->data;
-                current->data = current->next->data;
-                current->next->data = temp;
-                swapped = 1;
-            }
-            current = current->next;
-        }
-        last = current;
-    } while (swapped);
+    current = current->next;
+  } while (current->next != head);
 }
 
 int main() {
-    struct Node* head = NULL;
-    int num_nodes, data;
+  struct node *head = NULL;
+  int data;
+  
+  int n;
+  printf("Enter the number of nodes: ");
+  scanf("%d", &n);
+  
+  for (int i = 0; i < n; i++) {
+    printf("Enter data: ");
+    scanf("%d", &data);
+    insert_node(&head, data);
+  }
 
-    printf("Enter the number of nodes: ");
-    scanf("%d", &num_nodes);
+  printf("Original List: ");
+  print_list(head);
 
-    for (int i = 0; i < num_nodes; i++) {
-        printf("Enter the data for node %d: ", i + 1);
-        scanf("%d", &data);
-        insert(&head, data);
-    }
+  sort_list(head);
 
-    printf("Original circular linked list: ");
-    display(head);
+  printf("Sorted List (Ascending Order): ");
+  print_list(head);
 
-    // Sort the circular linked list
-    sortCircularLinkedList(&head);
-
-    printf("Sorted circular linked list: ");
-    display(head);
-
-    return 0;
+  return 0;
 }
