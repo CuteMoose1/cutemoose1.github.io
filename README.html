@@ -1,0 +1,44 @@
+
+<!doctype html><html><head><title>Workout Tracker</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" type="image/png" href="/assets/dumbbell.png"><link href="/assets/output.css" rel="stylesheet"><script src="/assets/common.js"></script><script src="/assets/dist/htmx.min.js"></script><script>
+        var browserThemeDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+        document.documentElement.classList.toggle("dark", browserThemeDark);
+      </script></head><body><div class="menu md:flex md:flex-wrap gap-4"><h1><a href="/">Workout Tracker</a></h1><div class="grow flex flex-wrap"><div class="grow flex flex-wrap justify-start"><div><a href="/"><span class="icon-decoration icon-[fa6-solid--chart-line]"></span><span class="autohide">Dashboard</span></a></div><div><a href="/workouts"><span class="icon-decoration icon-[fa6-solid--dumbbell]"></span><span class="autohide">Workouts</span></a></div><div><a href="/daily"><span class="icon-decoration icon-[ion--scale]"></span><span class="autohide">Measurements</span></a></div><div><a href="/statistics"><span class="icon-decoration icon-[fa6-solid--chart-simple]"></span><span class="autohide">Statistics</span></a></div><div><a href="/heatmap"><span class="icon-decoration icon-[fa6-solid--fire]"></span><span class="autohide">Heatmap</span></a></div><div><a href="/route_segments"><span class="icon-decoration icon-[fa6-solid--route]"></span><span class="autohide">Route segments</span></a></div><div><a href="/equipment"><span class="icon-decoration icon-[fa6-solid--bicycle]"></span><span class="autohide">Equipment</span></a></div></div><div class="flex flex-wrap md:min-w-[400px] justify-end"><div><a href="/admin"><span class="icon-decoration icon-[fa6-solid--gear]"></span><span class="autohide">Manage</span></a></div><div><a href="/user/profile"><span class="icon-decoration icon-[fa-solid--user-circle]"></span>Administrator</a></div><div class="-mr-5"><a href="/user/signout"><span class="icon-decoration icon-[fa6-solid--right-from-bracket]"></span><span class="autohide">Logout</span></a></div></div></div><div class="flex flex-wrap md:min-w-[400px] justify-end mt-3 md:mt-0 pt-3 md:pt-0 border-neutral-500 border-t-2 md:border-t-0"><select class="border-0" onchange="changeLanguage(this.value)"><option value="de">🇩🇪 Deutsch (German) </option><option value="en" selected>🇺🇸 English </option><option value="fa">🇮🇷 فارسی (Persian) </option><option value="fi">🇫🇮 suomi (Finnish) </option><option value="fr">🇫🇷 français (French) </option><option value="id">🇮🇩 Indonesia (Indonesian) </option><option value="it">🇮🇹 italiano (Italian) </option><option value="nl">🇳🇱 Nederlands (Dutch) </option><option value="no">🇳🇴 norsk bokmål (Norwegian Bokmål) </option><option value="pl">🇵🇱 polski (Polish) </option><option value="ru">🇷🇺 русский (Russian) </option><option value="zh-Hans">🇨🇳 简体中文 (Simplified Chinese) </option></select><script>
+    function changeLanguage(value) {
+      location.assign("?lang=" + value);
+    }
+  </script></div></div><div id="alerts" class="messages"></div><div id="version-notification" class="version-notice max-h-48" role="alert"><span class="block sm:inline">This application was updated to version:  <a target="_blank" title="Build time:now" href="https://github.com/jovandeginste/workout-tracker/tree/local">local (local)</a> . You may find the changes in <a target="_blank" href="https://github.com/jovandeginste/workout-tracker/tree/local/CHANGELOG.md">the Changelog</a>. ( <a href="#" hx-target="#version-notification" hx-swap="beforeend" hx-post="/user/update-version">hide until next update</a>)</span></div><div class="content"><h2><span class="icon-decoration icon-[fa6-solid--chart-line]"></span>Dashboard for Administrator</h2><div class="md:flex md:flex-wrap"><div class="md:basis-1/2 lg:basis-1/4"><div class="inner-form"><div class="grid grid-cols-3"><div class="text-3xl md:text-5xl text-center"><span class="icon-decoration icon-[fa6-solid--question]"></span></div><div class="col-span-2 grid grid-cols-1"><div class="text-xl md:text-3xl text-right font-mono md:h-8 overflow-hidden">0 </div><div class="text-neutral-600 dark:text-neutral-400 text-sm text-right">!(MISSING: sports.)</div></div></div></div></div><div class="md:basis-1/2 lg:basis-1/4"><div class="inner-form"><div class="grid grid-cols-3"><div class="text-3xl md:text-5xl text-center"><span class="icon-decoration icon-[fa6-solid--road]"></span></div><div class="col-span-2 grid grid-cols-1"><div class="text-xl md:text-3xl text-right font-mono md:h-8 overflow-hidden">0.00 km</div><div class="text-neutral-600 dark:text-neutral-400 text-sm text-right">distance</div></div></div></div></div><div class="md:basis-1/2 lg:basis-1/4"><div class="inner-form"><div class="grid grid-cols-3"><div class="text-3xl md:text-5xl text-center"><span class="icon-decoration icon-[fa6-solid--chevron-up]"></span></div><div class="col-span-2 grid grid-cols-1"><div class="text-xl md:text-3xl text-right font-mono md:h-8 overflow-hidden">0.00 m</div><div class="text-neutral-600 dark:text-neutral-400 text-sm text-right">up</div></div></div></div></div><div class="md:basis-1/2 lg:basis-1/4"><div class="inner-form"><div class="grid grid-cols-3"><div class="text-3xl md:text-5xl text-center"><span class="icon-decoration icon-[fa6-regular--clock]"></span></div><div class="col-span-2 grid grid-cols-1"><div class="text-xl md:text-3xl text-right font-mono md:h-8 overflow-hidden">0s </div><div class="text-neutral-600 dark:text-neutral-400 text-sm text-right">duration</div></div></div></div></div></div> <div class="lg:flex lg:flex-wrap [&amp;&gt;*]:basis-1/2"><div></div><div><div class="inner-form min-h-[450px]" id="calendar"></div><script src="/assets/dist/fullcalendar.min.js"></script><script id="api-workouts-calendar-route" type="application/json">"/api/v1/workouts/calendar"
+</script><script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var calendarEl = document.getElementById("calendar");
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      initialView: "dayGridMonth",
+      locale: Intl.DateTimeFormat().resolvedOptions().locale,
+      firstDay: 1,
+      aspectRatio: 2,
+      eventContent: function(arg) {
+        let eventSpan = document.createElement("div")
+
+        eventSpan.innerHTML = arg.event.title
+        eventSpan.classList.add(
+          "px-2", "overflow-hidden",
+        )
+
+        return { domNodes: [ eventSpan ] }
+      },
+      events: {
+        url: JSON.parse(document.getElementById('api-workouts-calendar-route').textContent),
+        display: "display",
+        failure: function() {
+          console.log('there was an error while fetching events!');
+        }, 
+        success: function(response) {
+          return response.results;
+        }
+      },
+    });
+    calendar.render();
+  });
+</script></div></div><div class="inner-form"><h3><span class="icon-decoration icon-[fa6-solid--users]"></span>Other users</h3><div class="sm:flex sm:flex-wrap gap-5"><a href="/users/2"><span class="user-pill">ABC</span></a></div></div><div class="inner-form recent-activity"><h3><span class="icon-decoration icon-[fa6-solid--dumbbell]"></span>Recent activity</h3><div class="sm:flex sm:flex-wrap justify-center"></div></div></div><div class="footer"><div>Workout Tracker, <a target="_blank" title="Build time: now" href="https://github.com/jovandeginste/workout-tracker/tree/local">local (local)</a></div><div><a target="_blank" href="https://github.com/jovandeginste/workout-tracker"><span class="icon-decoration icon-[octicon--mark-github-16]"></span>GitHub</a></div><div><a target="_blank" href="https://github.com/jovandeginste/workout-tracker/tree/local/CHANGELOG.md"><span class="icon-decoration icon-[mdi--clipboard-check]"></span>Changelog</a></div></div></body></html>
