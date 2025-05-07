@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Career Compass</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Career Compass</h1>
+    <div id="progress-container">
+      <div id="progress-bar"></div>
+    </div>
+    <form id="quizForm">
+      <div class="question">
+        <label>1. Do you enjoy solving complex problems?</label><br/>
+        <input type="radio" name="q1" value="yes" required /> Yes
+        <input type="radio" name="q1" value="no" /> No
+      </div>
+      <div class="question">
+        <label>2. Do you prefer working with data and numbers?</label><br/>
+        <input type="radio" name="q2" value="yes" required /> Yes
+        <input type="radio" name="q2" value="no" /> No
+      </div>
+      <div class="question">
+        <label>3. Do you have an interest in creative design and user experience?</label><br/>
+        <input type="radio" name="q3" value="yes" required /> Yes
+        <input type="radio" name="q3" value="no" /> No
+      </div>
+      <div class="question">
+        <label>4. Do you enjoy working with people in a team?</label><br/>
+        <input type="radio" name="q4" value="yes" required /> Yes
+        <input type="radio" name="q4" value="no" /> No
+      </div>
+      <div class="question">
+        <label>5. Do you like troubleshooting and resolving technical issues?</label><br/>
+        <input type="radio" name="q5" value="yes" required /> Yes
+        <input type="radio" name="q5" value="no" /> No
+      </div>
+      <button type="submit">Get Recommendation</button>
+    </form>
+    <div id="result" class="result"></div>
+    <div id="chatbot" class="chatbot">
+      <h2>Career Chatbot</h2>
+      <div id="chatbox"></div>
+      <input type="text" id="userInput" placeholder="Ask me about careers..." />
+      <button id="sendBtn">Send</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
